@@ -1,0 +1,19 @@
+.form__fields {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+  span {
+    width: 100%;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}
+
+.form__buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}

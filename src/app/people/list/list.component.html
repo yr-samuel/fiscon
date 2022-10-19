@@ -1,5 +1,7 @@
 <header>
-  <button mat-raised-button color="primary">Adicionar Pessoa</button>
+  <button mat-raised-button color="primary" (click)="openAddPersonDialog()">
+    Adicionar Pessoa
+  </button>
 </header>
 
 <table mat-table [dataSource]="dataSource" class="table">
