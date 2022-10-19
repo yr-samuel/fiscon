@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AddPersonComponent } from '../add-person/add-person.component';
 
 export interface Person {
   name: string;
@@ -30,9 +32,25 @@ const ELEMENT_DATA: Person[] = [
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {}
+
+  openAddPersonDialog() {
+    const dialogRef = this.dialog.open(AddPersonComponent, {
+      width: '500px',
+      data: {
+        name: '',
+        phone: '',
+      },
+      autoFocus: false,
+      panelClass: 'dialog',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('close');
+    });
+  }
 
   columnsToDisplay: string[] = ['position', 'name', 'phone'];
   dataSource = ELEMENT_DATA;
