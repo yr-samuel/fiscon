@@ -1,0 +1,24 @@
+<form [formGroup]="formGroup">
+  <div class="form__fields">
+    <span style="font-size: 12px">
+      <mat-form-field appearance="outline" [hideRequiredMarker]="true">
+        <mat-label>Nome</mat-label>
+        <input matInput placeholder="Digite o nome" formControlName="name" />
+      </mat-form-field>
+    </span>
+    <span style="font-size: 12px">
+      <mat-form-field appearance="outline" [hideRequiredMarker]="true">
+        <mat-label>Telefone</mat-label>
+        <input
+          matInput
+          placeholder="Digite o telefone"
+          formControlName="name"
+        />
+      </mat-form-field>
+    </span>
+  </div>
+  <div class="form__buttons">
+    <button mat-flat-button (click)="formGroup.reset()">Limpar</button>
+    <button mat-flat-button color="primary" type="submit">Adicionar</button>
+  </div>
+</form>
