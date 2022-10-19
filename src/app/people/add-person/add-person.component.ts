@@ -1,6 +1,13 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { PeopleService } from '../services/people.service';
+import { Person } from '../list/list.component';
 
 export interface DialogData {
   phone: string;
@@ -15,17 +22,24 @@ export interface DialogData {
 export class AddPersonComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AddPersonComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private peopleService: PeopleService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {}
 
-  formGroup = new FormGroup({
-    name: new FormControl(''),
-    phone: new FormControl('', Validators.required),
+  formGroup = this.formBuilder.group({
+    name: ['', Validators.required],
+    phone: ['', Validators.required],
   });
 
   closeAddPerson() {
     this.dialogRef.close();
+  }
+
+  addPerson() {
+    const personInfo = this.formGroup.value as Person;
+    this.peopleService.addPersonToPeopleSource(personInfo);
   }
 }

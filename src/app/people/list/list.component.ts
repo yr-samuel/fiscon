@@ -1,30 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPersonComponent } from '../add-person/add-person.component';
+import { PeopleService } from '../services/people.service';
 
 export interface Person {
   name: string;
   phone: string;
 }
-
-const ELEMENT_DATA: Person[] = [
-  {
-    name: 'Samuel',
-    phone: '15996874936',
-  },
-  {
-    name: 'Vitor',
-    phone: '15996874935',
-  },
-  {
-    name: 'Pablo',
-    phone: '15996874934',
-  },
-  {
-    name: 'Gustavo',
-    phone: '15996874933',
-  },
-];
 
 @Component({
   selector: 'app-list',
@@ -32,9 +14,19 @@ const ELEMENT_DATA: Person[] = [
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
-  constructor(public dialog: MatDialog) {}
+  dataSource: Person[] = [];
 
-  ngOnInit(): void {}
+  constructor(public dialog: MatDialog, private peopleService: PeopleService) {}
+
+  ngOnInit(): void {
+    this.peopleService.getPeopleSource().subscribe((people) => {
+      this.dataSource = people;
+    });
+  }
+
+  removePerson(personId: number) {
+    this.peopleService.removePersonOfPeopleSOurce(personId);
+  }
 
   openAddPersonDialog() {
     const dialogRef = this.dialog.open(AddPersonComponent, {
@@ -52,6 +44,5 @@ export class ListComponent implements OnInit {
     });
   }
 
-  columnsToDisplay: string[] = ['position', 'name', 'phone'];
-  dataSource = ELEMENT_DATA;
+  columnsToDisplay: string[] = ['position', 'name', 'phone', 'actions'];
 }
