@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
-import { PeopleModule } from '../people.module';
 
 interface Person {
   name: string;
