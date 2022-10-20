@@ -21,6 +21,13 @@
     <button mat-flat-button (click)="formGroup.reset()" type="button">
       Limpar
     </button>
-    <button mat-flat-button color="primary" type="submit">Adicionar</button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      [disabled]="!formGroup.valid"
+    >
+      Adicionar
+    </button>
   </div>
 </form>

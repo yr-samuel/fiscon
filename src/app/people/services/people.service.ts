@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
+import { ApiService } from 'src/app/core/services/api.service';
 import { PeopleModule } from '../people.module';
 
 interface Person {
@@ -10,48 +11,48 @@ interface Person {
 
 @Injectable()
 export class PeopleService {
-  constructor() {}
+  constructor(private apiService: ApiService) {
+    this.apiService
+      .get<Person[]>('/people')
+      .subscribe((people) => this.peopleSource.next(people));
+  }
 
-  private peopleSource = new BehaviorSubject<Person[]>([
-    {
-      id: 1,
-      name: 'Samuel',
-      phone: '15996874936',
-    },
-    {
-      id: 2,
-      name: 'Vitor',
-      phone: '15996874935',
-    },
-    {
-      id: 3,
-      name: 'Pablo',
-      phone: '15996874934',
-    },
-    {
-      id: 4,
-      name: 'Gustavo',
-      phone: '15996874933',
-    },
-  ]);
+  private peopleSource = new BehaviorSubject<Person[]>([]);
 
   getPeopleSource() {
     return this.peopleSource.asObservable();
   }
 
   addPersonToPeopleSource(person: Person) {
-    const peopleSourceValues = this.peopleSource.value;
-    this.peopleSource.next([
-      ...peopleSourceValues,
-      { ...person, id: new Date().getTime() },
-    ]);
+    const lastPerson = this.peopleSource.value.at(-1);
+
+    const newPerson = {
+      ...person,
+      id: lastPerson?.id ? lastPerson.id + 1 : 0,
+    };
+
+    this.apiService.post<Person>('/people', newPerson).subscribe((person) => {
+      const peopleSourceValues = this.peopleSource.value;
+      this.peopleSource.next([...peopleSourceValues, person]);
+    });
   }
 
   removePersonOfPeopleSOurce(personId: number) {
-    const peopleSourceValues = this.peopleSource.value;
-    const peopleSourceWithoutThisPerson = peopleSourceValues.filter(
-      (person) => person.id !== personId
-    );
-    this.peopleSource.next(peopleSourceWithoutThisPerson);
+    this.apiService.delete(`/people/${personId}`).subscribe(() => {
+      const peopleSourceValues = this.peopleSource.value;
+      const peopleSourceWithoutThisPerson = peopleSourceValues.filter(
+        (person) => person.id !== personId
+      );
+      this.peopleSource.next(peopleSourceWithoutThisPerson);
+    });
+  }
+
+  filterPeopleSource(value: string) {
+    this.apiService
+      .get<Person[]>(`/people${!!value ? '?name_like=' + value : ''}`)
+      .pipe(tap((value) => console.log(value)))
+      .subscribe((people) => {
+        this.peopleSource.next(people);
+      });
   }
 }
