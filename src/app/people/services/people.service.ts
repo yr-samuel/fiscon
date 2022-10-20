@@ -50,7 +50,6 @@ export class PeopleService {
   filterPeopleSource(value: string) {
     this.apiService
       .get<Person[]>(`/people${!!value ? '?name_like=' + value : ''}`)
-      .pipe(tap((value) => console.log(value)))
       .subscribe((people) => {
         this.peopleSource.next(people);
       });

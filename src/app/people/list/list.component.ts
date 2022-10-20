@@ -48,10 +48,6 @@ export class ListComponent implements OnInit {
       autoFocus: false,
       panelClass: 'dialog',
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('close');
-    });
   }
 
   columnsToDisplay: string[] = ['id', 'name', 'phone', 'actions'];
