@@ -6,3 +6,7 @@
   - npm install
   - npm run server
   - ng serve
+
+### O que foi usado?
+  - Angular
+  - Angular Material
