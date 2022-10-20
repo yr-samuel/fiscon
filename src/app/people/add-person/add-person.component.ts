@@ -29,9 +29,20 @@ export class AddPersonComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  formGroup = this.formBuilder.group({
-    name: ['', Validators.required],
-    phone: ['', Validators.required],
+  // formGroup = this.formBuilder.group({
+  //   name: ['', Validators.required, Validators.pattern(/^[a-z0-9-]+$/)],
+  //   phone: ['', Validators.required],
+  // });
+
+  formGroup = new FormGroup({
+    name: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[a-z.A-Z]+$/),
+    ]),
+    phone: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[0-9]*$/),
+    ]),
   });
 
   closeAddPerson() {
@@ -40,6 +51,10 @@ export class AddPersonComponent implements OnInit {
 
   addPerson() {
     const personInfo = this.formGroup.value as Person;
+
+    if (!this.formGroup.valid) return;
     this.peopleService.addPersonToPeopleSource(personInfo);
+
+    this.dialogRef.close();
   }
 }

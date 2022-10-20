@@ -13,6 +13,7 @@ import { AddPersonComponent } from './add-person/add-person.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { PeopleService } from './services/people.service';
+import { MatSortModule } from '@angular/material/sort';
 @NgModule({
   declarations: [PeopleComponent, ListComponent, AddPersonComponent],
   imports: [
@@ -25,6 +26,7 @@ import { PeopleService } from './services/people.service';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatSortModule,
   ],
   providers: [PeopleService],
 })
