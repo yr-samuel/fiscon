@@ -23,21 +23,15 @@ export class AddPersonComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AddPersonComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private peopleService: PeopleService,
-    private formBuilder: FormBuilder
+    private peopleService: PeopleService
   ) {}
 
   ngOnInit(): void {}
 
-  // formGroup = this.formBuilder.group({
-  //   name: ['', Validators.required, Validators.pattern(/^[a-z0-9-]+$/)],
-  //   phone: ['', Validators.required],
-  // });
-
   formGroup = new FormGroup({
     name: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^[a-z.A-Z]+$/),
+      Validators.pattern(/^[^0-9]+$/),
     ]),
     phone: new FormControl('', [
       Validators.required,

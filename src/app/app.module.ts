@@ -7,6 +7,7 @@ import { PeopleModule } from './people/people.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,6 +17,7 @@ import { CoreModule } from './core/core.module';
     PeopleModule,
     BrowserAnimationsModule,
     CoreModule,
+    MatToolbarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
